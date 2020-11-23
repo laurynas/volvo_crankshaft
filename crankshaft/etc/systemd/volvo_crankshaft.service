@@ -1,0 +1,12 @@
+[Unit]
+ Description=Volvo Crankshaft Service
+ ConditionPathExists=/opt/service_volvo_crankshaft.sh
+ After=openauto.service
+
+[Service]
+ Type=simple
+ ExecStart=/opt/service_volvo_crankshaft.sh
+ RemainAfterExit=yes
+
+[Install]
+ WantedBy=multi-user.target

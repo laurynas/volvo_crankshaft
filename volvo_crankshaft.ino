@@ -55,8 +55,8 @@
 #define BUTTON_NEXT 0x10
 #define BUTTON_PREV 0x2
 
-#define RPI_ANDROID_CONNECTED '+'
-#define RPI_ANDROID_DISCONNECTED '-'
+#define CRANKSHAFT_ANDROID_CONNECTED '+'
+#define CRANKSHAFT_ANDROID_DISCONNECTED '-'
 
 short rtiStep;
 
@@ -87,7 +87,7 @@ void loop() {
   currentMillis = millis();
 
   if (Serial.available())
-    read_rpi();
+    read_crankshaft();
 
   if (Serial1.available())
     read_lin_bus();
@@ -97,15 +97,15 @@ void loop() {
   rti();
 }
 
-void read_rpi() {
+void read_crankshaft() {
   byte b = Serial.read();
 
   switch (b) {
-    case RPI_ANDROID_CONNECTED:
+    case CRANKSHAFT_ANDROID_CONNECTED:
       if (state == STATE_OFF)
         turn_on();
 
-    case RPI_ANDROID_DISCONNECTED:
+    case CRANKSHAFT_ANDROID_DISCONNECTED:
       if (state == STATE_ON)
         turn_off();
   }

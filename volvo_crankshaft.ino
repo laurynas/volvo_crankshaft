@@ -136,11 +136,14 @@ void handle_swm_frame() {
     return;
 
   //  dump_frame();
-  handle_joystick();
   handle_buttons();
+  handle_joystick();
 }
 
 void handle_joystick() {
+  if (state != STATE_ON)
+    return;
+  
   byte button = frame.get_byte(1);
 
   if (button != currentJoystickButton) {
@@ -153,15 +156,19 @@ void click_joystick(byte button) {
   switch (button) {
     case JOYSTICK_UP:
       Keyboard.write(KEY_UP_ARROW);
+      debug("UP");
       break;
     case JOYSTICK_DOWN:
       Keyboard.write(KEY_DOWN_ARROW);
+      debug("DOWN");
       break;
     case JOYSTICK_LEFT:
       Keyboard.write('1');
+      debug("LEFT");
       break;
     case JOYSTICK_RIGHT:
       Keyboard.write('2');
+      debug("RIGHT");
       break;  
   }
 }
@@ -190,15 +197,19 @@ void click_button(byte button) {
   switch (button) {
     case BUTTON_ENTER:
       Keyboard.write(KEY_RETURN);
+      debug("ENTER");
       break;
     case BUTTON_BACK:
       Keyboard.write(KEY_ESC);
+      debug("ESC");
       break;
     case BUTTON_PREV:
       Keyboard.write('V');
+      debug("PREV");
       break;
     case BUTTON_NEXT:
       Keyboard.write('N');
+      debug("NEXT");
       break;
   }
 }
@@ -212,10 +223,12 @@ void timeout_button() {
 }
 
 void release_button(byte button, unsigned long clickDuration) {
-  if (state == STATE_OFF && button == BUTTON_ENTER && clickDuration > ON_CLICK_DURATION)
-    return turn_on();
-
   switch (button) {
+    case BUTTON_ENTER:
+      if (state == STATE_OFF && clickDuration > ON_CLICK_DURATION)
+        turn_on();
+      break;
+
     case BUTTON_BACK:
       if (clickDuration > OFF_CLICK_DURATION)
         turn_off();

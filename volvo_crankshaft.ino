@@ -104,10 +104,12 @@ void read_crankshaft() {
     case CRANKSHAFT_ANDROID_CONNECTED:
       if (state == STATE_OFF)
         turn_on();
+      break;
 
     case CRANKSHAFT_ANDROID_DISCONNECTED:
       if (state == STATE_ON)
         turn_off();
+      break;
   }
 
   if (DEBUG) {

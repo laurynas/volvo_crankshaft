@@ -1,4 +1,4 @@
-# Volvo V50 + Crankshaft + Raspberry Pi + Arduino = ❤️
+# Volvo V50 RTI + Crankshaft + Raspberry Pi + Arduino = ❤️
 
 ## Configure RPi / Crankshaft
 

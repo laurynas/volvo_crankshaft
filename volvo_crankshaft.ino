@@ -11,7 +11,7 @@
 #include "SoftwareSerial.h"
 
 // https://github.com/zapta/linbus/tree/master/analyzer/arduino
-#include "lin_frame.h"
+#include "src/lin_frame.h"
 
 #define CS_PIN 15
 #define RX_LED 17

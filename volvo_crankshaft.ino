@@ -55,6 +55,9 @@
 #define BUTTON_NEXT 0x10
 #define BUTTON_PREV 0x2
 
+#define RPI_ANDROID_CONNECTED '+'
+#define RPI_ANDROID_DISCONNECTED '-'
+
 short rtiStep;
 
 SoftwareSerial rtiSerial(RTI_RX_PIN, RTI_TX_PIN);
@@ -84,7 +87,7 @@ void loop() {
   currentMillis = millis();
 
   if (Serial.available())
-    read_serial();
+    read_rpi();
 
   if (Serial1.available())
     read_lin_bus();
@@ -94,12 +97,22 @@ void loop() {
   rti();
 }
 
-void read_serial() {
+void read_rpi() {
   byte b = Serial.read();
+
+  switch (b) {
+    case RPI_ANDROID_CONNECTED:
+      if (state == STATE_OFF)
+        turn_on();
+
+    case RPI_ANDROID_DISCONNECTED:
+      if (state == STATE_ON)
+        turn_off();
+  }
 
   if (DEBUG) {
     Serial.write(b);
-    Keyboard.write(b);
+//    Keyboard.write(b);
   }
 }
 

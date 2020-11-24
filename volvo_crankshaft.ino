@@ -316,7 +316,8 @@ void rti() {
   switch (rtiStep) {
     case 0: // mode
       rti_print(on ? 0x40 : 0x46);
-      debug(String("RTI:" + on) + String(" ANDROID:" + android));
+      debug(on ? "ON" : "OFF");
+      debug(android ? "ANDROID ON" : "ANDROID OFF");
       rtiStep++;
       break;
 

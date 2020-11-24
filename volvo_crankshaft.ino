@@ -8,6 +8,7 @@
 #define DEBUG true
 
 #include "Keyboard.h"
+#include "Mouse.h"
 #include "SoftwareSerial.h"
 
 // https://github.com/zapta/linbus/tree/master/analyzer/arduino
@@ -26,11 +27,11 @@
 #define HEARTBEAT_TIMEOUT 2000
 #define RTI_INTERVAL 100
 
+#define MOUSE_BASE_SPEED 8
+#define MOUSE_SPEEDUP 3
+
 #define SYN_FIELD 0x55
 #define SWM_ID 0x20
-
-#define STATE_OFF 0
-#define STATE_ON 1
 
 // Volvo V50 2007 SWM key codes
 //
@@ -65,8 +66,10 @@ SoftwareSerial rtiSerial(RTI_RX_PIN, RTI_TX_PIN);
 LinFrame frame = LinFrame();
 
 unsigned long currentMillis, lastHeartbeat, lastRtiWrite, buttonDownAt, lastButtonAt;
-short state = STATE_OFF;
+bool on = false;
+bool android = false;
 byte currentButton, currentJoystickButton;
+int mouseSpeed = MOUSE_BASE_SPEED;
 
 void setup() {
   pinMode(RX_LED, OUTPUT);
@@ -81,6 +84,7 @@ void setup() {
   Keyboard.begin();
 
   //turn_on();
+  disable_android_mode();
 }
 
 void loop() {
@@ -102,13 +106,12 @@ void read_crankshaft() {
 
   switch (b) {
     case CRANKSHAFT_ANDROID_CONNECTED:
-      if (state == STATE_OFF)
-        turn_on();
+      if (!on) turn_on();
+      if (!android) enable_android_mode();
       break;
 
     case CRANKSHAFT_ANDROID_DISCONNECTED:
-      if (state == STATE_ON)
-        turn_off();
+      if (on) turn_off();
       break;
   }
 
@@ -156,15 +159,33 @@ void handle_swm_frame() {
 }
 
 void handle_joystick() {
-  if (state != STATE_ON)
-    return;
+  if (!on) return;
   
   byte button = frame.get_byte(1);
 
   if (button != currentJoystickButton) {
     currentJoystickButton = button;
-    click_joystick(button);
+    mouseSpeed = MOUSE_BASE_SPEED;
+    
+    if (android) click_joystick(button);
   }  
+
+  if (android) return;
+
+  switch (button) {
+    case JOYSTICK_UP:
+      move_mouse(0, -1);
+      break;
+    case JOYSTICK_DOWN:
+      move_mouse(0, 1);
+      break;
+    case JOYSTICK_LEFT:
+      move_mouse(-1, 0);
+      break;
+    case JOYSTICK_RIGHT:
+      move_mouse(1, 0);
+      break;  
+  }
 }
 
 void click_joystick(byte button) {
@@ -188,6 +209,11 @@ void click_joystick(byte button) {
   }
 }
 
+void move_mouse(int dx, int dy) {
+  Mouse.move(dx * mouseSpeed, dy * mouseSpeed, 0);
+  mouseSpeed += MOUSE_SPEEDUP;
+}
+
 void handle_buttons() {
   byte button = frame.get_byte(2);
 
@@ -206,16 +232,15 @@ void handle_buttons() {
 }
 
 void click_button(byte button) {
-  if (state != STATE_ON)
-    return;
+  if (!on) return;
   
   switch (button) {
     case BUTTON_ENTER:
-      Keyboard.write(KEY_RETURN);
+      Keyboard.write(android ? KEY_RETURN : 'B');
       debug("ENTER");
       break;
     case BUTTON_BACK:
-      Keyboard.write(KEY_ESC);
+      Keyboard.write(android ? KEY_ESC : 'H');
       debug("ESC");
       break;
     case BUTTON_PREV:
@@ -240,7 +265,7 @@ void timeout_button() {
 void release_button(byte button, unsigned long clickDuration) {
   switch (button) {
     case BUTTON_ENTER:
-      if (state == STATE_OFF && clickDuration > ON_CLICK_DURATION)
+      if (!on && clickDuration > ON_CLICK_DURATION)
         turn_on();
       break;
 
@@ -263,12 +288,25 @@ void check_ignition_key() {
 
 void turn_on() {
   debug("Turn on");
-  state = STATE_ON;
+  on = true;
 }
 
 void turn_off() {
   debug("Turn off");
-  state = STATE_OFF;
+  on = false;
+  disable_android_mode();
+}
+
+void enable_android_mode() {
+  debug("Android on");
+  android = true;
+  Mouse.end();
+}
+
+void disable_android_mode() {
+  debug("Android off");
+  android = false;
+  Mouse.begin();
 }
 
 // send serial data to Volvo RTI screen mechanism
@@ -277,16 +315,8 @@ void rti() {
   
   switch (rtiStep) {
     case 0: // mode
-      if (state == STATE_OFF) 
-        rti_print(0x46);
-      else
-        rti_print(0x40);
-
-      if (state == STATE_OFF)
-        debug("RTI OFF");
-      else
-        debug("RTI ON");
-              
+      rti_print(on ? 0x40 : 0x46);
+      debug(String("RTI:" + on) + String(" ANDROID:" + android));
       rtiStep++;
       break;
 
@@ -318,7 +348,7 @@ void dump_frame() {
   Serial.println();
 }
 
-void debug(char* message) {
+void debug(String message) {
   if (DEBUG)
     Serial.println(message);
 }

@@ -19,6 +19,10 @@
 #define RTI_RX_PIN 16
 #define RTI_TX_PIN 10
 
+#define PI_POWER_BUTTON_PIN A3
+#define PI_POWER_BUTTON_DURATION 100
+#define PI_TIMEOUT 30000
+
 #define ON_CLICK_DURATION 100
 #define OFF_CLICK_DURATION 3000 // how long to hold "back" button to turn off
 
@@ -65,13 +69,16 @@ SoftwareSerial rtiSerial(RTI_RX_PIN, RTI_TX_PIN);
 
 LinFrame frame = LinFrame();
 
-unsigned long currentMillis, lastHeartbeat, lastRtiWrite, buttonDownAt, lastButtonAt;
+unsigned long currentMillis, lastHeartbeat, lastPiHeartbeat, lastRtiWrite, buttonDownAt, lastButtonAt;
 bool on = false;
 bool android = false;
 byte currentButton, currentJoystickButton;
 int mouseSpeed = MOUSE_BASE_SPEED;
 
 void setup() {
+  pinMode(PI_POWER_BUTTON_PIN, OUTPUT);
+  analogWrite(PI_POWER_BUTTON_PIN, 0);
+
   pinMode(RX_LED, OUTPUT);
 
   pinMode(CS_PIN, OUTPUT);
@@ -99,10 +106,13 @@ void loop() {
   timeout_button();
   check_ignition_key();
   rti();
+  power_on_pi();
 }
 
 void read_crankshaft() {
   byte b = Serial.read();
+
+  lastPiHeartbeat = currentMillis;
 
   switch (b) {
     case CRANKSHAFT_ANDROID_CONNECTED:
@@ -116,8 +126,11 @@ void read_crankshaft() {
   }
 
   if (DEBUG) {
-    Serial.write(b);
+    Serial.println(b);
 //    Keyboard.write(b);
+    Serial.println(is_ignition_off() ? "RESPONSE: CMD SHUTDOWN" : "RESPONSE: OK");
+  } else {
+    Serial.println(is_ignition_off() ? "CMD SHUTDOWN" : "OK");    
   }
 }
 
@@ -160,15 +173,15 @@ void handle_swm_frame() {
 
 void handle_joystick() {
   if (!on) return;
-  
+
   byte button = frame.get_byte(1);
 
   if (button != currentJoystickButton) {
     currentJoystickButton = button;
     mouseSpeed = MOUSE_BASE_SPEED;
-    
+
     if (android) click_joystick(button);
-  }  
+  }
 
   if (android) return;
 
@@ -184,7 +197,7 @@ void handle_joystick() {
       break;
     case JOYSTICK_RIGHT:
       move_mouse(1, 0);
-      break;  
+      break;
   }
 }
 
@@ -205,7 +218,7 @@ void click_joystick(byte button) {
     case JOYSTICK_RIGHT:
       Keyboard.write('2');
       debug("RIGHT");
-      break;  
+      break;
   }
 }
 
@@ -219,11 +232,11 @@ void handle_buttons() {
 
   if (!button)
     return;
-  
+
   if (button != currentButton) {
-    release_button(currentButton, currentMillis - buttonDownAt);
+    release_button(currentButton, since(buttonDownAt));
     click_button(button);
-    
+
     currentButton = button;
     buttonDownAt = currentMillis;
   }
@@ -233,7 +246,7 @@ void handle_buttons() {
 
 void click_button(byte button) {
   if (!on) return;
-  
+
   switch (button) {
     case BUTTON_ENTER:
       Keyboard.write(android ? KEY_RETURN : 'B');
@@ -255,11 +268,11 @@ void click_button(byte button) {
 }
 
 void timeout_button() {
-  if (!currentButton) 
+  if (!currentButton)
     return;
 
-  if (currentMillis - lastButtonAt > CLICK_TIMEOUT) 
-    release_button(currentButton, currentMillis - buttonDownAt);
+  if (since(lastButtonAt) > CLICK_TIMEOUT)
+    release_button(currentButton, since(buttonDownAt));
 }
 
 void release_button(byte button, unsigned long clickDuration) {
@@ -279,11 +292,14 @@ void release_button(byte button, unsigned long clickDuration) {
 }
 
 void check_ignition_key() {
-  if (lastHeartbeat && currentMillis - lastHeartbeat > HEARTBEAT_TIMEOUT) {
+  if (lastHeartbeat && is_ignition_off()) {
     debug("Ignition off");
-    lastHeartbeat = 0;
     turn_off();
   }
+}
+
+bool is_ignition_off() {
+  return since(lastHeartbeat) > HEARTBEAT_TIMEOUT;
 }
 
 void turn_on() {
@@ -311,8 +327,8 @@ void disable_android_mode() {
 
 // send serial data to Volvo RTI screen mechanism
 void rti() {
-  if (currentMillis - lastRtiWrite < RTI_INTERVAL) return;
-  
+  if (since(lastRtiWrite) < RTI_INTERVAL) return;
+
   switch (rtiStep) {
     case 0: // mode
       rti_print(on ? 0x40 : 0x46);
@@ -329,7 +345,7 @@ void rti() {
     case 2: // sync
       rti_print(0x83);
       rtiStep = 0;
-      break;    
+      break;
   }
 
   lastRtiWrite = currentMillis;
@@ -337,6 +353,17 @@ void rti() {
 
 void rti_print(char byte) {
   rtiSerial.print(byte);
+}
+
+void power_on_pi() {
+  if (since(lastPiHeartbeat) > PI_TIMEOUT && !is_ignition_off())
+    click_pi_power_button();
+}
+
+void click_pi_power_button() {
+  analogWrite(PI_POWER_BUTTON_PIN, 255);
+  delay(PI_POWER_BUTTON_DURATION);
+  analogWrite(PI_POWER_BUTTON_PIN, 0);
 }
 
 // -- debugging
@@ -352,4 +379,8 @@ void dump_frame() {
 void debug(String message) {
   if (DEBUG)
     Serial.println(message);
+}
+
+long since(long timestamp) {
+  return currentMillis - timestamp;
 }

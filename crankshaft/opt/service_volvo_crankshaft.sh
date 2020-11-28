@@ -11,6 +11,14 @@ while true; do
         else
             echo $ANDROID_DISCONNECTED > $SERIAL_DEVICE
         fi
+        
+        sleep 0.1
+
+        read -t 1 RESPONSE < $SERIAL_DEVICE
+
+        if [ "${RESPONSE/$'\r'}" == "CMD SHUTDOWN" ]; then
+            sudo halt
+        fi
     fi
 
     sleep 1

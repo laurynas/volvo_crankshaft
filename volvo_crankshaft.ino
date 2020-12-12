@@ -26,7 +26,7 @@
 #define ON_CLICK_DURATION 100
 #define OFF_CLICK_DURATION 3000 // how long to hold "back" button to turn off
 
-#define CLICK_TIMEOUT 100
+#define CLICK_TIMEOUT 300
 
 #define HEARTBEAT_TIMEOUT 2000
 #define RTI_INTERVAL 100
@@ -69,9 +69,10 @@ SoftwareSerial rtiSerial(RTI_RX_PIN, RTI_TX_PIN);
 
 LinFrame frame = LinFrame();
 
-unsigned long currentMillis, lastHeartbeat, lastPiHeartbeat, lastRtiWrite, buttonDownAt, lastButtonAt;
+unsigned long currentMillis, lastHeartbeat, lastPiHeartbeat, lastRtiWrite, buttonDownAt, lastButtonAt, lastJoysticButtonAt;
 bool on = false;
 bool android = false;
+bool manualOn = false;
 byte currentButton, currentJoystickButton;
 int mouseSpeed = MOUSE_BASE_SPEED;
 
@@ -121,7 +122,7 @@ void read_crankshaft() {
       break;
 
     case CRANKSHAFT_ANDROID_DISCONNECTED:
-      if (on) turn_off();
+      if (on && !manualOn) turn_off();
       break;
   }
 
@@ -176,6 +177,8 @@ void handle_joystick() {
 
   byte button = frame.get_byte(1);
 
+  timeout_joystic_button();
+
   if (button != currentJoystickButton) {
     currentJoystickButton = button;
     mouseSpeed = MOUSE_BASE_SPEED;
@@ -220,6 +223,16 @@ void click_joystick(byte button) {
       debug("RIGHT");
       break;
   }
+
+  lastJoysticButtonAt = currentMillis;
+}
+
+void timeout_joystic_button() {
+  if (!currentJoystickButton)
+    return;
+
+  if (since(lastJoysticButtonAt) > CLICK_TIMEOUT)
+    currentJoystickButton = 0;
 }
 
 void move_mouse(int dx, int dy) {
@@ -249,7 +262,10 @@ void click_button(byte button) {
 
   switch (button) {
     case BUTTON_ENTER:
-      Keyboard.write(android ? KEY_RETURN : 'B');
+      if (android)
+        Keyboard.write(KEY_RETURN);
+      else 
+        Mouse.click();
       debug("ENTER");
       break;
     case BUTTON_BACK:
@@ -278,13 +294,17 @@ void timeout_button() {
 void release_button(byte button, unsigned long clickDuration) {
   switch (button) {
     case BUTTON_ENTER:
-      if (!on && clickDuration > ON_CLICK_DURATION)
+      if (!on && clickDuration > ON_CLICK_DURATION) {
+        manualOn = true;
         turn_on();
+      }
       break;
 
     case BUTTON_BACK:
-      if (clickDuration > OFF_CLICK_DURATION)
+      if (clickDuration > OFF_CLICK_DURATION) {
+        manualOn = false;
         turn_off();
+      }
       break;
   }
 

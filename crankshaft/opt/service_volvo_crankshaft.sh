@@ -16,9 +16,9 @@ while true; do
 
         read -t 1 RESPONSE < $SERIAL_DEVICE
 
-        if [ "${RESPONSE/$'\r'}" == "CMD SHUTDOWN" ]; then
-            sudo halt
-        fi
+        #if [ "${RESPONSE/$'\r'}" == "CMD SHUTDOWN" ]; then
+        #    sudo halt
+        #fi
     fi
 
     sleep 1

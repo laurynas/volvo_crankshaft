@@ -1,7 +1,6 @@
 # Volvo V50 RTI + Crankshaft + Raspberry Pi + Arduino = ❤️
 
-Replacing Volvo V50 RTI screen with Raspberry Pi & [Crankshaft](https://getcrankshaft.com/) which allows running Android Auto on
-the RTI screen.
+Run Android Auto on Volvo V50 RTI screen by retrofitting it with Raspberry Pi & [Crankshaft](https://getcrankshaft.com/).
 
 [![Working example](media/android_auto.jpg)](https://photos.app.goo.gl/vtM3ymQ5z1pJNeDw8)
 

@@ -29,6 +29,16 @@ Missing / TODO:
 - HDMI slim flat cable
 - USB extension cable
 
+## Overview
+
+Raspberry Pi is running [Crankshaft](https://getcrankshaft.com/) which enables Android Auto support.
+
+Arduino Pro Micro is listening for steering wheel button events via LIN bus transceiver. It converts these events to keyboard / mouse HID events and sends to Raspberry Pi via USB.
+
+Via the same USB cable Raspberry Pi is sending phone state to Arduino.
+
+Arduino Pro Micro is sending serial events to Volvo RTI screen module and controls opening / closing of the screen.
+
 ## Configure Arduino
 
 Build and upload [volvo_crankshaft.ino](volvo_crankshaft.ino) to Arduino Pro Micro.

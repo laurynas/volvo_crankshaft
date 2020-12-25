@@ -36,7 +36,7 @@ Arduino is listening for steering wheel button events via [LIN bus](https://gith
 
 Via the same USB cable Raspberry Pi is sending phone state to Arduino.
 
-Arduino is sending [serial events](https://github.com/laurynas/volvo) to Volvo RTI screen module and controls opening / closing of the screen.
+Arduino is sending [serial events](https://github.com/laurynas/volvo#screen-control-signal) to Volvo RTI screen module and controls opening / closing of the screen.
 
 Original RTI screen is replaced with AT065TN14 and connected to RPi using HDMI cable. Driver board is powered by 12V from RTI screen module.
 

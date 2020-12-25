@@ -42,6 +42,8 @@ Original RTI screen is replaced with AT065TN14 and connected to RPi using HDMI c
 
 RPi is powered from step down converter which converts 12V from the car to 5V.
 
+![Rough scheme](media/sketch_bb.svg)
+
 ## Configure Arduino
 
 Build and upload [volvo_crankshaft.ino](volvo_crankshaft.ino) to Arduino.

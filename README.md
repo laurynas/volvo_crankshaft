@@ -33,11 +33,11 @@ Missing / TODO:
 
 Raspberry Pi is running [Crankshaft](https://getcrankshaft.com/) which enables Android Auto support.
 
-Arduino Pro Micro is listening for steering wheel button events via LIN bus transceiver. It converts these events to keyboard / mouse HID events and sends to Raspberry Pi via USB.
+Arduino is listening for steering wheel button events via LIN bus transceiver. It converts these events to keyboard / mouse HID events and sends to Raspberry Pi via USB.
 
 Via the same USB cable Raspberry Pi is sending phone state to Arduino.
 
-Arduino Pro Micro is sending serial events to Volvo RTI screen module and controls opening / closing of the screen.
+Arduino is sending serial events to Volvo RTI screen module and controls opening / closing of the screen.
 
 Original RTI screen is replaced with AT065TN14 and connected to RPi using HDMI cable. Driver board is powered by 12V from RTI screen module.
 
@@ -45,7 +45,7 @@ RPi is powered from step down converter which converts 12V from the car to 5V.
 
 ## Configure Arduino
 
-Build and upload [volvo_crankshaft.ino](volvo_crankshaft.ino) to Arduino Pro Micro.
+Build and upload [volvo_crankshaft.ino](volvo_crankshaft.ino) to Arduino.
 
 ## Configure RPi / Crankshaft
 

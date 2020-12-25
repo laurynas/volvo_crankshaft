@@ -16,6 +16,9 @@ Missing / TODO:
 - Automatic brightness adjustment using light sensor
 - Sound output to the car stereo via RPi
 - Microphone
+- Phone fast charging via USB. Phone charges slowly from RPi USB.
+
+I'm playing audio via Bluetooh audio adapter. 
 
 ## Ingredients
 
@@ -42,6 +45,10 @@ Original RTI screen is replaced with AT065TN14 and connected to RPi using HDMI c
 
 RPi is powered from step down converter which converts 12V from the car to 5V.
 
+## Scheme
+
+This is just a rough scheme showing how main components are connected. 
+
 ![Rough scheme](media/sketch_bb.png)
 
 ## Configure Arduino
@@ -57,6 +64,11 @@ Enable serial service
 > systemctl enable volvo_crankshaft
 
 > systemctl start volvo_crankshaft 
+
+### Configure Crankshaft
+
+1. Enable keyboard controls
+2. Disable audio (I'm playing audio via bluetooth adapter)
 
 ## Links
 

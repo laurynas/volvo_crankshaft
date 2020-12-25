@@ -1,6 +1,33 @@
 # Volvo V50 RTI + Crankshaft + Raspberry Pi + Arduino = ❤️
 
+Replacing Volvo V50 RTI screen with Raspberry Pi & Crankshaft which allows running Android Auto on
+the RTI screen.
+
+![Working example](media/android_auto.jpg)
+
 Work in progress...
+
+## Features
+
+- Steering wheel controls
+- Auto-open display when Android phone is connected to USB
+
+Missing / TODO:
+
+- Automatic brightness adjustment using light sensor
+- Sound output to the car stereo via RPi
+- Microphone
+
+## Ingredients
+
+- Volvo V50
+- Raspberry Pi 3B
+- Arduino Pro Micro
+- 6.5" AT065TN14 800x480 LCD + driver board
+- MCP2004 LIN bus transceiver (or any compatible like MCP2003, MCP2025)
+- 12V -> 5V step down converter, like XL4005 or LM2596. I would choose 5amps instead of 3amps.
+- HDMI slim flat cable
+- USB extension cable
 
 ## Configure Arduino
 

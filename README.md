@@ -9,7 +9,7 @@ Run Android Auto on Volvo V50 RTI screen by retrofitting it with Raspberry Pi & 
 ## Features
 
 - Steering wheel controls
-- Auto-open display when Android phone is connected to USB
+- Open/close display when Android phone is plugged/unplugged
 
 Missing / TODO:
 

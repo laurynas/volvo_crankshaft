@@ -23,13 +23,14 @@ I'm playing audio via Bluetooh audio adapter.
 ## Ingredients
 
 - Volvo V50
-- [Raspberry Pi 3B](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_tl?ie=UTF8&tag=laurynas-21&keywords=Raspberry+PI+3+B&index=aps&camp=1638&creative=6742&linkCode=ur2&linkId=e001c5f9f4d3f74b5c1dd16f6c332d13)
+- [Raspberry Pi 3B](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_tl?ie=UTF8&tag=laurynas-21&keywords=Raspberry+PI+3+B&index=aps&camp=1638&creative=6742&linkCode=ur2&linkId=e001c5f9f4d3f74b5c1dd16f6c332d13) or later
 - [Arduino Pro Micro](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=laurynas-21&keywords=Arduino+Pro+Micro&index=aps&camp=1638&creative=6742&linkCode=xm2&linkId=d4686b56fc385d159579ed4d5eef5ea8)
 - [6.5" AT065TN14 800x480 LCD + driver board](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=laurynas-21&keywords=AT065TN14&index=aps&camp=1638&creative=6742&linkCode=xm2&linkId=6e01e0dad15fba08e3fcbea8f2b6eccf)
 - MCP2004 LIN bus transceiver (or any compatible like [MCP2003](https://amzn.to/3rwwUKv), [MCP2025](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_tl?ie=UTF8&tag=laurynas-21&keywords=MCP2025&index=aps&camp=1638&creative=6742&linkCode=ur2&linkId=cf9ec269986e3037d6f886c80946ed53))
 - 12V -> 5V step down converter, like [XL4005](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=laurynas-21&keywords=XL4005&index=aps&camp=1638&creative=6742&linkCode=xm2&linkId=eb52987620732e0b3498814cf89e6b3a) or [LM2596](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=laurynas-21&keywords=LM2596&index=aps&camp=1638&creative=6742&linkCode=xm2&linkId=b877bd309a1e1d59cda432af439f6d30). I would choose 5amps instead of 3amps.
 - [HDMI slim flat FPC cable](https://amzn.to/3hjNZCM)
 - [USB extension cable](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=laurynas-21&keywords=USB+extension+cable&index=aps&camp=1638&creative=6742&linkCode=xm2&linkId=855fc94e9bb2ae16bfbce0f68ece176d)
+- [Micro USB to USB cable](https://www.amazon.de/gp/search/ref=as_li_qf_sp_sr_il_tl?ie=UTF8&tag=laurynas-21&keywords=Micro+USB+to+USB+flat+cable&index=aps&camp=1638&creative=6742&linkCode=xm2&linkId=06dc1a5da441e191d22304bfa2641932)
 
 ## Overview
 

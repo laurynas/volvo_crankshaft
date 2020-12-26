@@ -34,6 +34,10 @@ I'm playing audio via Bluetooh audio adapter.
 
 ## Overview
 
+This is just a rough scheme showing how main components are connected. 
+
+![Rough scheme](media/sketch_bb.png)
+
 Raspberry Pi is running [Crankshaft](https://getcrankshaft.com/) which enables Android Auto support.
 
 Arduino is listening for steering wheel button events via [LIN bus](https://github.com/laurynas/volvo_linbus) transceiver. It converts these events to keyboard / mouse HID events and sends to Raspberry Pi via USB.
@@ -45,12 +49,6 @@ Arduino is sending [serial events](https://github.com/laurynas/volvo#screen-cont
 Original RTI screen is replaced with AT065TN14 and connected to RPi using HDMI cable. Driver board is powered by 12V from RTI screen module.
 
 RPi is powered from step down converter which converts 12V from the car to 5V.
-
-## Scheme
-
-This is just a rough scheme showing how main components are connected. 
-
-![Rough scheme](media/sketch_bb.png)
 
 ## Configure Arduino
 

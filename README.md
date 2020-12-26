@@ -16,7 +16,6 @@ Missing / TODO:
 - Automatic brightness adjustment using light sensor
 - Sound output to the car stereo via RPi
 - Microphone
-- Phone fast charging via USB. Phone charges slowly from RPi USB. It should be possible to do fast-charging by splitting USB extension cable and connecting power wires directly to 5V output of step down converter.
 
 I'm playing audio via Bluetooh audio adapter. 
 

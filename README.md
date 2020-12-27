@@ -68,6 +68,10 @@ Enable serial service
 1. Enable keyboard controls
 2. Disable audio (I'm playing audio via bluetooth adapter)
 
+## Alternative - Using original RTI LCD display
+
+I have also succeeded using original LCD display too. [More details in the wiki »](https://github.com/laurynas/volvo_crankshaft/wiki/Using-original-RTI-LCD-display).
+
 ## Links
 
 - [Volvo V50 LIN bus reader](https://github.com/laurynas/volvo_linbus) - reading steering wheel controls

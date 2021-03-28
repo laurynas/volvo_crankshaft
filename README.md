@@ -55,9 +55,10 @@ Build and upload [volvo_crankshaft.ino](volvo_crankshaft.ino) to Arduino.
 
 ## Configure RPi / Crankshaft
 
-Copy files from [crankshaft/](crankshaft/) to RPi [using SSH](https://github.com/opencardev/crankshaft/wiki/Crankshaft-dev-mode). Place files under appropriate system folders and make `/opt/service_volvo_crankshaft.sh` executable.
-
-Enable serial service
+1. Connect to Crankshaft via via [SSH](https://github.com/opencardev/crankshaft/wiki/Crankshaft-dev-mode).
+2. Unlock readonly Crankshaft filesystem using `csmt` command line utility.
+3. Copy files from [crankshaft/](crankshaft/) to RPi using SSH or just create them via the terminal. Place files under appropriate system folders and make `/opt/service_volvo_crankshaft.sh` executable.
+4. Enable the serial service:
 
 > systemctl enable volvo_crankshaft
 

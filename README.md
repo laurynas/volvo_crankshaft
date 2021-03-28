@@ -71,6 +71,12 @@ Configure Crankshaft using Crankshaft UI -> Settings.
 1. Enable keyboard controls - Arduino works as "keyboard" sending keyboard events to RPi.
 2. Disable audio if you are playing audio via bluetooth adapter.
 
+## Controls
+
+1. When Android phone is connected, RTI screen should pop automatically and streering wheel controls can be used to navigate Android auto.
+2. Clicking "Enter" on the steering wheel buttons when Android phone is disconneted will pop RTI screen and joystic will work as a mouse to navigate Crankshaft UI (you can use it to go to the settings). 
+3. Long press of "Back" button will put the screen down.
+
 ## Tips
 
 - MMM module is still receiving SWM events and occasionally might speak someting on your audio system :) To avoid that, you can disconnect it, but you need to put [optical bypass](https://allegro.pl/oferta/petla-swiatlowod-most-kabel-audi-seat-skoda-zestaw-9688273368) because otherwise radio wouldn't work. 

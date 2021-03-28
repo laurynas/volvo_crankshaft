@@ -91,3 +91,5 @@ I have also succeeded using original LCD display too. [More details in the wiki 
 - [Volvo V50 RTI screen with Arduino controls](https://github.com/laurynas/volvo) - sending serial + VGA signals to original RTI screen
 - [Volvo V50 RTI screen removal](https://www.youtube.com/watch?v=MJirMelq5ys)
 - [Volvo V50 waterfall panel/radio removal](https://www.youtube.com/watch?v=Xo5NpBt04qs)
+- [Volvo V50 glove box removal](https://www.youtube.com/watch?v=bLI-HLhO0_c) - if you decide to remove MMM module
+- [Luuk Android Auto RTI project](https://luuk.cc/p/vD2f/Android_Auto_on_Volvo_RTI) - for Volvo S60, S80, V70, etc.

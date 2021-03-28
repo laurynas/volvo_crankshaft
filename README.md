@@ -71,6 +71,10 @@ Configure Crankshaft using Crankshaft UI -> Settings.
 1. Enable keyboard controls - Arduino works as "keyboard" sending keyboard events to RPi.
 2. Disable audio if you are playing audio via bluetooth adapter.
 
+## Tips
+
+- MMM module is still receiving SWM events and occasionally might speak someting on your audio system :) To avoid that, you can disconnect it, but you need to put [optical bypass](https://allegro.pl/oferta/petla-swiatlowod-most-kabel-audi-seat-skoda-zestaw-9688273368) because otherwise radio wouldn't work. 
+
 ## Alternative - Using original RTI LCD display
 
 I have also succeeded using original LCD display too. [More details in the wiki »](https://github.com/laurynas/volvo_crankshaft/wiki/Using-original-RTI-LCD-display).

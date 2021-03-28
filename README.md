@@ -66,8 +66,10 @@ Build and upload [volvo_crankshaft.ino](volvo_crankshaft.ino) to Arduino.
 
 ### Configure Crankshaft
 
-1. Enable keyboard controls
-2. Disable audio (I'm playing audio via bluetooth adapter)
+Configure Crankshaft using Crankshaft UI -> Settings.
+
+1. Enable keyboard controls - Arduino works as "keyboard" sending keyboard events to RPi.
+2. Disable audio if you are playing audio via bluetooth adapter.
 
 ## Alternative - Using original RTI LCD display
 

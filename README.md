@@ -39,7 +39,7 @@ This is just a rough scheme showing how main components are connected.
 
 Raspberry Pi is running [Crankshaft](https://getcrankshaft.com/) which enables Android Auto support.
 
-Arduino is listening for steering wheel button events via [LIN bus](https://github.com/laurynas/volvo_linbus) transceiver. It converts these events to keyboard / mouse HID events and sends to Raspberry Pi via USB.
+Arduino is listening for steering wheel button events via [LIN bus](https://github.com/laurynas/volvo_linbus) transceiver. It converts these events to keyboard / mouse HID events and sends to Raspberry Pi via USB. Make sure you are using Arduino [hardware supported by the HID library](https://github.com/NicoHood/HID).
 
 Via the same USB cable Raspberry Pi is sending phone state to Arduino.
 
